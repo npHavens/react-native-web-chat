@@ -7,6 +7,7 @@ import { default as JoinRoom } from './JoinRoom';
 
 const socket = io('https://simple-socket-server.herokuapp.com/');
 //const socket = io('https://socket-server.apps.us2.bosch-iot-cloud.com');
+//const socket = io('http://localhost:3000/');
 
 
 export default class App extends React.Component {
@@ -27,26 +28,29 @@ export default class App extends React.Component {
 
   componentWillMount() {
     socket.on('serverMsg', (data) => {
+      console.log('RECEIVING SERVER MSG')
       this.handleServerMessage(data.msg)
     })
   }
 
 
   handleJoinRoom = (roomName) => {
-    console.log('JOINING ROOM')
     this.setState({ room: roomName });
+    socket.emit('joinRoom', { room: roomName });
+    console.log('JOINING ROOM:', roomName)
   } 
 
   handleCancel = () => {
     this.setState({ room: '', joining: false });
   }
 
-  handleNewMessage = ({ text, username, room }) => {
-    socket.emit('newMsg', { msg: { text, username}, room });
-    console.log('SENDING NEW MESSAGE TO:', room); 
+  handleNewMessage = ({ text, username }) => {
+    socket.emit('newMsg', { msg: { text, username}, room: this.state.room });
+    console.log('SENDING NEW MESSAGE TO:', this.state.room); 
   }
   
   handleServerMessage = ({ text, username, room }) => {
+    console.log('RECIEVING MESSAGE')
     const currentMessages = this.state.messages;
     currentMessages.push({ text, username, room });
     this.setState({ messages: currentMessages });
@@ -68,7 +72,7 @@ export default class App extends React.Component {
           style={styles.button}
           onPress={() => this.setState({ joining: true })}
         >
-        <Text> Join Room </Text>
+        <Text  style={styles.buttonText}> Join Room </Text>
         </TouchableOpacity>
       }
       </View>
@@ -88,7 +92,15 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10
+    backgroundColor: '#4286f4',
+    padding: 10,
+    width: 250,
+    height: 60,
+    borderRadius: 15
+  },
+  buttonText: {
+    paddingTop: 5,
+    fontSize: 24,
+    color: 'white'
   }
 });

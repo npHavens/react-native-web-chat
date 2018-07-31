@@ -12,6 +12,7 @@ export default Message = ({ text, username }) => {
 
 const styles = StyleSheet.create({
     container: {
+        width: 200,
         margin: 10,
         padding: 10,
         borderRadius: 10,

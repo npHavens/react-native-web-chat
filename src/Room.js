@@ -1,56 +1,57 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Text, Button, Modal } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 
 import { default as Message } from './Message';
+import { default as NewMessage } from './NewMessage';
 
-export default Room = ({ room, messages, handleNewMessage }) => {
-    return (
-        <View>
-            <ScrollView contentContainerStyle={styles.container}>
-                <Text style={styles.header}>{room.toUpperCase()}</Text>
-                { 
-                    messages.map((msg, i) => {
-                        return <Message {...msg} room={room} key={i}/>
-                    })
+export default class Room extends React.Component {
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+         enteringMsg: false
+        }
+    }
+
+    closePrompt = () => {
+        this.setState({ enteringMsg: false });
+    }
+
+    render () {
+        return (
+            <View style={styles.container}>
+                {this.state.enteringMsg ? 
+                <NewMessage
+                    handleSend={this.props.handleNewMessage}
+                    closePrompt={this.closePrompt}
+                /> :
+                <View>
+                    <ScrollView contentContainerStyle={styles.container}>
+                        <Text style={styles.header}>{this.props.room.toUpperCase()}</Text>
+                        { 
+                            this.props.messages.map((msg, i) => {
+                                return <Message {...msg} room={this.props.room} key={i}/>
+                            })
+                        }
+                    </ScrollView>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => this.setState({ enteringMsg: true })}
+                    >
+                    <Text style={styles.buttonText}>New Message</Text>
+                    </TouchableOpacity>
+                </View>                
                 }
-            </ScrollView>
-            <Button style={styles.button}
-                onPress={() => {
-                    Modal.prompt(
-                        'New Message',
-                        'Enter message text',
-                        [
-                            {
-                                text: 'Cancel',
-                                onPress: () => console.log('Cancel Pressed'),
-                                style: 'cancel',
-                            },
-                            {
-                                text: 'send',
-                                onPress: (msgText) => {
-                                    handleNewMessage({ 
-                                        text: msgText,
-                                        username: 'anonymous',
-                                        room                          
-                                    })
-                                },
-                            },
-                        ]
-                    );    
-                }
-                }
-                title="New Message"
-                color="#164882"
-                accessibilityLabel="New Message"
-            /> 
-        </View>
-    );
+            </View>
+        );
+    }
+    
 }
 
 const styles = StyleSheet.create({
     header: {
-        position: 'absolute',
-        top: 50,
+        // position: 'absolute',
+        // top: 50,
         fontSize: 26
     },
     container: {
@@ -60,6 +61,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     button: {
-        paddingBottom: 50
+        alignItems: 'center',
+        backgroundColor: '#4286f4',
+        width: 200,
+        height: 40,
+        borderRadius: 15,
+        marginBottom: 25,
+    },
+    buttonText: {
+        paddingTop: 7,
+        fontSize: 20,
+        color: 'white'
     }
 });

@@ -1,33 +1,39 @@
 import React, { Component } from 'react';
 import { Modal, Text, TouchableOpacity, View, TextInput, StyleSheet } from 'react-native';
 
-export default class JoinRoom extends React.Component{
+export default class NewMessage extends React.Component{
     constructor(props) {
         super(props);
     
         this.state = {
          input: ''
         }
-      }
+    }
 
     render () {
         return (
         <View style={styles.container}>
-            <Text style={{fontSize: 24}}>Enter Room Name</Text>
+            <Text style={{fontSize: 24}}>Enter message text</Text>
             <TextInput
-                style={styles.input}
-                onChangeText={(text) => this.setState({ input: text })}
-                autoFocus={true}
+            style={styles.input}
+            onChangeText={(text) => this.setState({ input: text })}
+            autoFocus={true}
             />
-             <TouchableOpacity
+            <TouchableOpacity
                 style={styles.button}
-                onPress={() => this.props.handleJoinRoom(this.state.input)}
+                onPress={() => {
+                    this.props.handleSend({
+                        text: this.state.input,
+                        username: 'anonymous'
+                    });
+                    this.props.closePrompt();
+                }}
                 >
-            <Text style={styles.buttonText}>Join</Text>
+            <Text style={styles.buttonText}>Send</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => this.props.handleCancel()}
+                onPress={() => this.props.closePrompt()}
                 >
             <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
@@ -52,7 +58,6 @@ const styles = StyleSheet.create({
     container: {
       position: 'relative',
       bottom: 50,
-      flex: 1,
       backgroundColor: '#ededed',
       alignItems: 'center',
       justifyContent: 'center',
