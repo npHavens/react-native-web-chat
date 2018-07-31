@@ -36,6 +36,7 @@
     "expo-web": "^0.0.12",
     "react-dom": "16.0.0",
     "react-native-web": "^0.4.0",
+    "socket.io-client": "^2.1.1",
     "webpack": "^3.11.0",
     "webpack-dev-server": "2.9.4"
   }
