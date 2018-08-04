@@ -66,7 +66,7 @@ export default class App extends React.Component {
           handleJoinRoom={this.handleJoinRoom}
           handleCancel={this.handleCancel}
         /> :
-        <View>
+        <View style={styles.container}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.setState({ joining: true })}

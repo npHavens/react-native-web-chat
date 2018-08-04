@@ -24,15 +24,15 @@ export default class Room extends React.Component {
                     handleSend={this.props.handleNewMessage}
                     closePrompt={this.closePrompt}
                 /> :
-                    <View>
-                        <View> 
+                    <View style={styles.container}>
+                        <ScrollView style={styles.scroll}> 
                             <Text style={styles.header}>{this.props.room.toUpperCase()}</Text>
                             { 
                                 this.props.messages.map((msg, i) => {
                                     return <Message {...msg} room={this.props.room} key={i}/>
                                 })
                             }
-                        </View>  
+                        </ScrollView>  
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => this.setState({ enteringMsg: true })}
@@ -48,16 +48,20 @@ export default class Room extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    scroll: {
+        flex: 0.8
+    },
     header: {
         // position: 'absolute',
         // top: 50,
+        textAlign: 'center',
         fontSize: 26
     },
     container: {
+        paddingTop: 60,
         flex: 1,
         backgroundColor: '#ededed',
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: 'center'
     },
     button: {
         alignItems: 'center',
