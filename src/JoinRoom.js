@@ -12,7 +12,7 @@ export default class JoinRoom extends React.Component{
 
     render () {
         return (
-        <View style={styles.container}>
+        <View >
             <Text style={{fontSize: 24}}>Enter Room Name</Text>
             <TextInput
                 style={styles.input}

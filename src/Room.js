@@ -18,31 +18,30 @@ export default class Room extends React.Component {
     }
 
     render () {
-        return (
-            <View style={styles.container}>
-                {this.state.enteringMsg ? 
+        return (        
+                this.state.enteringMsg ? 
                 <NewMessage
                     handleSend={this.props.handleNewMessage}
                     closePrompt={this.closePrompt}
                 /> :
-                <View>
-                    <ScrollView contentContainerStyle={styles.container}>
-                        <Text style={styles.header}>{this.props.room.toUpperCase()}</Text>
-                        { 
-                            this.props.messages.map((msg, i) => {
-                                return <Message {...msg} room={this.props.room} key={i}/>
-                            })
-                        }
-                    </ScrollView>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => this.setState({ enteringMsg: true })}
-                    >
-                    <Text style={styles.buttonText}>New Message</Text>
-                    </TouchableOpacity>
-                </View>                
-                }
-            </View>
+                    <View>
+                        <View> 
+                            <Text style={styles.header}>{this.props.room.toUpperCase()}</Text>
+                            { 
+                                this.props.messages.map((msg, i) => {
+                                    return <Message {...msg} room={this.props.room} key={i}/>
+                                })
+                            }
+                        </View>  
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => this.setState({ enteringMsg: true })}
+                            >
+                            <Text style={styles.buttonText}>New Message</Text>
+                        </TouchableOpacity>  
+                    </View>            
+                
+           
         );
     }
     

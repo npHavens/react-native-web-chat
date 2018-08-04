@@ -12,7 +12,7 @@ export default class NewMessage extends React.Component{
 
     render () {
         return (
-        <View style={styles.container}>
+        <View>
             <Text style={{fontSize: 24}}>Enter message text</Text>
             <TextInput
             style={styles.input}

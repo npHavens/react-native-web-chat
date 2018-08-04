@@ -58,24 +58,22 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-      {this.state.room ? 
-        <View>
+      this.state.room ? 
           <Room {...this.state} handleNewMessage={this.handleNewMessage}/>
-        </View> :
+         :
         this.state.joining ?
         <JoinRoom 
           handleJoinRoom={this.handleJoinRoom}
           handleCancel={this.handleCancel}
         /> :
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.setState({ joining: true })}
-        >
-        <Text  style={styles.buttonText}> Join Room </Text>
-        </TouchableOpacity>
-      }
-      </View>
+        <View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.setState({ joining: true })}
+          >
+          <Text  style={styles.buttonText}> Join Room </Text>
+          </TouchableOpacity>
+        </View>
     );
   }
 }
