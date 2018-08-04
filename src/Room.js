@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Dimensions } from 'react-native';
 
 import { default as Message } from './Message';
 import { default as NewMessage } from './NewMessage';
@@ -25,20 +25,24 @@ export default class Room extends React.Component {
                     closePrompt={this.closePrompt}
                 /> :
                     <View style={styles.container}>
+                        <View style={styles.topBar}>
+                            <Text style={styles.title}>{this.props.room.toUpperCase()}</Text>
+                        </View>    
                         <ScrollView style={styles.scroll}> 
-                            <Text style={styles.header}>{this.props.room.toUpperCase()}</Text>
                             { 
                                 this.props.messages.map((msg, i) => {
                                     return <Message {...msg} room={this.props.room} key={i}/>
                                 })
                             }
                         </ScrollView>  
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => this.setState({ enteringMsg: true })}
-                            >
-                            <Text style={styles.buttonText}>New Message</Text>
-                        </TouchableOpacity>  
+                        <View style={styles.bottomBar}>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={() => this.setState({ enteringMsg: true })}
+                                >
+                                <Text style={styles.buttonText}>New Message</Text>
+                            </TouchableOpacity>  
+                        </View>
                     </View>            
                 
            
@@ -48,32 +52,44 @@ export default class Room extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    topBar: {
+        paddingTop: 10,
+        flex: 0.15,
+        backgroundColor: '#4286f4',
+        justifyContent: 'center' 
+    },
     scroll: {
+        padding: 30,
         flex: 0.8
     },
-    header: {
-        // position: 'absolute',
-        // top: 50,
+    title: {
+        color: '#ededed',
         textAlign: 'center',
-        fontSize: 26
+        fontSize: 32
     },
     container: {
-        paddingTop: 60,
         flex: 1,
         backgroundColor: '#ededed',
-        alignItems: 'center'
     },
     button: {
         alignItems: 'center',
-        backgroundColor: '#4286f4',
+        backgroundColor: '#c0d2e8',
         width: 200,
         height: 40,
         borderRadius: 15,
-        marginBottom: 25,
+        justifyContent: 'center'
+
     },
     buttonText: {
-        paddingTop: 7,
-        fontSize: 20,
-        color: 'white'
+        textAlign: 'center',
+        fontSize: 20
+    },
+    bottomBar: {
+        padding: 20,
+        flex: 0.1,
+        backgroundColor: '#4286f4',
+        // width: Dimensions.get('window').width,
+        justifyContent: 'center',
+        alignItems: 'center' 
     }
 });
