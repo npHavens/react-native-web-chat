@@ -5,7 +5,7 @@ export default Message = ({ text, username }) => {
     return (
         <View style={styles.container}> 
             <Text style={styles.text}>{text}</Text>
-            <Text>username: {username}</Text>
+            <Text style={{ fontSize: 18, color: '#424040' }}>username: {username}</Text>
         </View>
     );
 };
@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     text: {
-        fontSize: 20,
-        paddingBottom: 5
+        fontSize: 22,
+        paddingBottom: 5,
+        color: '#424040'
     }
 });

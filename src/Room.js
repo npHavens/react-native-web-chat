@@ -96,7 +96,9 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         textAlign: 'center',
-        fontSize: 20
+        fontSize: 20,
+        color: '#424040'
+
     },
     bottomBar: {
         padding: 20,

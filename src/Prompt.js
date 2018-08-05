@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Text, TouchableOpacity, View, TextInput, StyleSheet } from 'react-native';
+import { defaultInputStyle } from './styles/defaultInput';
 
 export default class Prompt extends React.Component{
     constructor(props) {
@@ -14,9 +15,9 @@ export default class Prompt extends React.Component{
         const { handleConfirm, handleCancel, promptText, confirmText } = this.props;
         return (
         <View style={styles.container}>
-            <Text style={{fontSize: 24}}>{promptText}</Text>
+            <Text style={{ fontSize: 24, color: '#424040' }}>{promptText}</Text>
             <TextInput
-                style={styles.input}
+                style={defaultInputStyle}
                 onChangeText={(text) => this.setState({ input: text })}
                 autoFocus={true}
             />
@@ -41,18 +42,6 @@ export default class Prompt extends React.Component{
 };
 
 const styles = StyleSheet.create({
-    input : {
-        padding: 10,
-        backgroundColor: 'white',
-        fontSize: 20,
-        height: 40, 
-        borderColor: 'gray', 
-        borderWidth: 1,
-        width: 250,
-        marginTop: 20,
-        marginBottom: 20,
-        borderRadius: 5
-    },
     buttonRow: {
         flexDirection: 'row'
     },
