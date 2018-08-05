@@ -24,7 +24,7 @@ export default class App extends React.Component {
   componentWillMount() {
     const { messages } = this.state;
     
-    for (let i = 1; i < 10; i++) {
+    for (let i = 10; i > 0; i--) {
       messages.push({
         text: 'test message ' + i,
         username: 'anonymous'
@@ -58,7 +58,7 @@ export default class App extends React.Component {
   handleServerMessage = ({ text, username, room }) => {
     console.log('RECIEVING MESSAGE')
     const currentMessages = this.state.messages;
-    currentMessages.push({ text, username, room });
+    currentMessages.unshift({ text, username, room });
     this.setState({ messages: currentMessages });
   }
 
