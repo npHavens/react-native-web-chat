@@ -17,16 +17,22 @@ export default class App extends React.Component {
     this.state = {
       room: '',
       joining: false,
-      messages: [
-        {
-          text: 'test message',
-          username: 'Nick'
-        }
-      ]
+      messages: []
     }
   }
 
   componentWillMount() {
+    const { messages } = this.state;
+    
+    for (let i = 1; i < 10; i++) {
+      messages.push({
+        text: 'test message ' + i,
+        username: 'anonymous'
+      })
+    }
+
+    this.setState({ messages });
+
     socket.on('serverMsg', (data) => {
       console.log('RECEIVING SERVER MSG')
       this.handleServerMessage(data.msg)

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Platform } from 'react-native';
 
 import { default as Message } from './Message';
 import { default as NewMessage } from './NewMessage';
@@ -27,14 +27,23 @@ export default class Room extends React.Component {
                     <View style={styles.container}>
                         <View style={styles.topBar}>
                             <Text style={styles.title}>{this.props.room.toUpperCase()}</Text>
-                        </View>    
-                        <ScrollView style={styles.scroll}> 
-                            { 
-                                this.props.messages.map((msg, i) => {
-                                    return <Message {...msg} room={this.props.room} key={i}/>
-                                })
-                            }
-                        </ScrollView>  
+                        </View>   
+                        <ScrollView    
+                            style={Platform.OS !== 'web' && styles.nativeScroll}       
+                            contentContainerStyle={Platform.OS === 'web' && styles.webScroll} 
+                        >
+                            {this.props.messages.map((msg, i) => {
+                                return <Message {...msg} room={this.props.room} key={i}/>
+                            })}
+                    
+                        </ScrollView>
+                        {/* <FlatList style={styles.scroll}
+                            data={this.props.messages}
+                            renderItem={({ item }) => {
+                                return <Message {...item} room={this.props.room} key={item.key}/>
+                            } }
+                        > 
+                        </FlatList>   */}
                         <View style={styles.bottomBar}>
                             <TouchableOpacity
                                 style={styles.button}
@@ -58,9 +67,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#4286f4',
         justifyContent: 'center' 
     },
-    scroll: {
-        padding: 30,
-        flex: 0.8
+    nativeScroll: {
+        flex: 0.8,
+        padding: 30
+    },
+    webScroll: {
+       height: 400,
+       padding: 30 
     },
     title: {
         color: '#ededed',
