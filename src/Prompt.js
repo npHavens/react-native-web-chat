@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Text, TouchableOpacity, View, TextInput, StyleSheet } from 'react-native';
 
-export default class NewMessage extends React.Component{
+export default class Prompt extends React.Component{
     constructor(props) {
         super(props);
     
@@ -11,32 +11,29 @@ export default class NewMessage extends React.Component{
     }
 
     render () {
+        const { handleConfirm, handleCancel, promptText, confirmText } = this.props;
         return (
         <View style={styles.container}>
-            <Text style={{fontSize: 24}}>Enter message text</Text>
+            <Text style={{fontSize: 24}}>{promptText}</Text>
             <TextInput
-            style={styles.input}
-            onChangeText={(text) => this.setState({ input: text })}
-            autoFocus={true}
+                style={styles.input}
+                onChangeText={(text) => this.setState({ input: text })}
+                autoFocus={true}
             />
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                    this.props.handleSend({
-                        text: this.state.input,
-                        username: 'anonymous'
-                    });
-                    this.props.closePrompt();
-                }}
+            <View style={styles.buttonRow}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleConfirm(this.state.input)}
                 >
-            <Text style={styles.buttonText}>Send</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.props.closePrompt()}
+                    <Text style={styles.buttonText}>{confirmText}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleCancel()}
                 >
-            <Text style={styles.buttonText}>Cancel</Text>
-            </TouchableOpacity>
+                    <Text style={styles.buttonText}>Cancel</Text>
+                </TouchableOpacity>
+            </View>
         </View>
         );
     };
@@ -45,6 +42,7 @@ export default class NewMessage extends React.Component{
 
 const styles = StyleSheet.create({
     input : {
+        padding: 10,
         backgroundColor: 'white',
         fontSize: 20,
         height: 40, 
@@ -55,6 +53,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         borderRadius: 5
     },
+    buttonRow: {
+        flexDirection: 'row'
+    },
     container: {
       flex: 1,
       backgroundColor: '#ededed',
@@ -64,10 +65,10 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         backgroundColor: '#4286f4',
-        width: 150,
+        width: 100,
         height: 40,
         borderRadius: 15,
-        marginBottom: 10,
+        margin: 10,
     },
     buttonText: {
         paddingTop: 7,

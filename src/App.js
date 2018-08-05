@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import { StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
 
 import { default as Room } from './Room';
-import { default as JoinRoom } from './JoinRoom';
+import { default as Prompt } from './Prompt';
 
 const socket = io('https://simple-socket-server.herokuapp.com/');
 //const socket = io('https://socket-server.apps.us2.bosch-iot-cloud.com');
@@ -51,7 +51,7 @@ export default class App extends React.Component {
   }
 
   handleNewMessage = ({ text, username }) => {
-    socket.emit('newMsg', { msg: { text, username}, room: this.state.room });
+    socket.emit('newMsg', { msg: { text, username }, room: this.state.room });
     console.log('SENDING NEW MESSAGE TO:', this.state.room); 
   }
   
@@ -68,8 +68,10 @@ export default class App extends React.Component {
           <Room {...this.state} handleNewMessage={this.handleNewMessage}/>
          :
         this.state.joining ?
-        <JoinRoom 
-          handleJoinRoom={this.handleJoinRoom}
+        <Prompt
+          promptText="Enter room name"
+          confirmText= "Join"
+          handleConfirm={this.handleJoinRoom}
           handleCancel={this.handleCancel}
         /> :
         <View style={styles.container}>
@@ -77,7 +79,7 @@ export default class App extends React.Component {
             style={styles.button}
             onPress={() => this.setState({ joining: true })}
           >
-          <Text  style={styles.buttonText}> Join Room </Text>
+            <Text style={styles.buttonText}>Join Room</Text>
           </TouchableOpacity>
         </View>
     );

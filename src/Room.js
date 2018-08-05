@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Platform } from 'react-native';
 
 import { default as Message } from './Message';
-import { default as NewMessage } from './NewMessage';
+import { default as Prompt } from './Prompt';
 
 export default class Room extends React.Component {
     constructor(props) {
@@ -17,12 +17,22 @@ export default class Room extends React.Component {
         this.setState({ enteringMsg: false });
     }
 
+    handleSend = (msgText) => {
+        this.props.handleNewMessage({
+            text: msgText,
+            username: 'anonymous'
+        });
+        this.closePrompt();
+    }
+
     render () {
         return (        
                 this.state.enteringMsg ? 
-                <NewMessage
-                    handleSend={this.props.handleNewMessage}
-                    closePrompt={this.closePrompt}
+                <Prompt
+                    promptText="Enter message text"
+                    confirmText="Send"
+                    handleConfirm={this.handleSend}
+                    handleCancel={this.closePrompt}
                 /> :
                     <View style={styles.container}>
                         <View style={styles.topBar}>
@@ -37,25 +47,16 @@ export default class Room extends React.Component {
                             })}
                     
                         </ScrollView>
-                        {/* <FlatList style={styles.scroll}
-                            data={this.props.messages}
-                            renderItem={({ item }) => {
-                                return <Message {...item} room={this.props.room} key={item.key}/>
-                            } }
-                        > 
-                        </FlatList>   */}
                         <View style={styles.bottomBar}>
                             <TouchableOpacity
                                 style={styles.button}
                                 onPress={() => this.setState({ enteringMsg: true })}
-                                >
+                            >
                                 <Text style={styles.buttonText}>New Message</Text>
                             </TouchableOpacity>  
                         </View>
-                    </View>            
-                
-           
-        );
+                    </View>             
+                );
     }
     
 }
